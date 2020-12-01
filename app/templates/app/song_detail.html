@@ -1,0 +1,40 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+        <div class="container">
+                <div class="card bg-dark mb-3 border-success">
+                        <div class="card-header"><h1>{{ song.title }}</h1></div>
+                        <div class="row">
+                                <div class="col">
+                                        <img src="{{ song.image.url }}" width="50%">
+                                </div>
+                                <div class="col">
+                                        <div class="card-body text-left">
+                                                <h5 class="card-title">Published: {{ song.publish_date }}</h5>
+                                                <h5 class="card-title">Author: <a class="text-success" href="{% url 'author_detail' pk=song.author.pk %}">{{ song.author }}</a></h5>
+                                                <h5 class="card-title">Genre: <a class="text-success" href="{% url 'genre_detail' pk=song.genre.pk %}">{{ song.genre }}</a></h5>
+                                                {% if user.is_authenticated %}
+                                                        <form action="{% url 'like_song' song.pk %}" method="POST">
+                                                                {% csrf_token %}
+                                                                {% if is_liked %}
+                                                                        <button type="submit" class="btn btn-outline-success" name="song.id" value="{{ song.id }}">Unlike</button>
+                                                                {% else %}
+                                                                        <button type="submit" class="btn btn-success" name="song.id" value="{{ song.id }}">Like</button>
+                                                                {% endif %}
+                                                        </form>
+                                                        <form method="POST" class="form-group">
+                                                                {% csrf_token %}
+                                                                <button type="submit" class="btn btn-success">Add To Playlist</button>
+                                                                {{ form }}
+                                                        </form>
+                                                {% endif %}
+                                                <audio controls>
+                                                        <source src="{{ song.mp3.url }}" type="audio/mpeg">
+                                                </audio>
+                                                <embed src="{{ song.mp3.url }}" loop="true" autostart="true" width="2" height="0">
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+{% endblock %}

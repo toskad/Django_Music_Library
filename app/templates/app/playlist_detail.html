@@ -1,0 +1,108 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+        <div class="container">
+                <div class="card bg-dark mb-3 border-success">
+                        <div class="card-header"><h1>{{ playlist.title }}</h1></div>
+                        <div class="row">
+                                <div class="col">
+                                        <img src="{{ playlist.image.url }}" width="50%">
+                                </div>
+                                <div class="col">
+                                        <div class="card-body text-left">
+                                            <h4 class="card-title">Author: {{ playlist.author }}</h4>
+                                                <h5>{{ playlist.text }}</h5>
+                                                {% if user.is_authenticated %}
+                                                    {% if is_my %}
+                                                        <form action="{% url 'delete_playlist' playlist.pk %}" method="POST">
+                                                            {% csrf_token %}
+                                                            <button type="submit" class="btn btn-outline-danger" name="playlist.id" value="{{ playlist.id }}">Delete</button>
+                                                        </form>
+                                                    {% else %}
+                                                        <form action="{% url 'like_playlist' playlist.pk %}" method="POST">
+                                                            {% csrf_token %}
+                                                            {% if is_liked %}
+                                                                <button type="submit" class="btn btn-outline-success" name="playlist.id" value="{{ playlist.id }}">Unlike</button>
+                                                            {% else %}
+                                                                <button type="submit" class="btn btn-success" name="playlist.id" value="{{ playlist.id }}">Like</button>
+                                                            {% endif %}
+                                                        </form>
+                                                {% endif %}
+                                            {% endif %}
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+        <div class="container">
+                <div class="card bg-dark mb-3 border-success">
+                        <div class="card-header"><h1>Songs</h1></div>
+                        <div class="container table-responsive">
+                        {% if is_my %}
+                        <table class="table table-striped table-dark">
+                            <tbody>
+                                    <tr>
+                                        <td width="20%" class="text-left">Cover</td>
+                                        <td width="20%" class="text-left">Title</td>
+                                        <td width="20%" class="text-left">Author</td>
+                                        <td width="30%" class="text-left">Player</td>
+                                        <td width="10%" class="text-left">Delete</td>
+                                    </tr>
+                            </tbody>
+                    </table>
+                    {% for song in playlist.songs.all %}
+                    <table class="table table-striped table-dark">
+                            <tbody>
+                                    <tr>
+                                            <td width="20%"><a class="text-success" href="{% url 'song_detail' pk=song.pk %}"><img src="{{ song.image.url }}" height="60" width="60"></a></td>
+                                            <td width="20%" class="text-left"><a class="text-success" href="{% url 'song_detail' pk=song.pk %}">{{ song.title }}</a></td>
+                                            <td width="20%" class="text-left"><a class="text-success" href="{% url 'author_detail' pk=song.author.pk %}">{{ song.author }}</a></td>
+                                            <td width="30%" class="text-left">
+                                                <audio controls style="width: 290px;">
+                                                    <source src="{{ song.mp3.url }}" type="audio/mpeg">
+                                                </audio>
+                                                <embed src="{{ song.mp3.url }}" loop="true" autostart="true" width="0" height="0">
+                                            </td>
+                                            <td width="10%" class="text-center">
+                                                    <form action="{% url 'delete_song_from_playlist' song.pk playlist.pk %}" method="POST">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="btn btn-outline-danger" name="song.id" value="{{ song.id }}">Delete</button>
+                                                    </form>
+                                            </td>
+                                    </tr>
+                            </tbody>
+                    </table>
+                    {% endfor %}
+                    {% else %}
+                            <table class="table table-striped table-dark">
+                            <tbody>
+                                    <tr>
+                                        <td width="20%" class="text-left">Cover</td>
+                                        <td width="25%" class="text-left">Title</td>
+                                        <td width="25%" class="text-left">Author</td>
+                                        <td width="30%" class="text-left">Player</td>
+                                    </tr>
+                            </tbody>
+                    </table>
+                    {% for song in playlist.songs.all %}
+                    <table class="table table-striped table-dark">
+                            <tbody>
+                                    <tr>
+                                            <td width="20%"><a class="text-success" href="{% url 'song_detail' pk=song.pk %}"><img src="{{ song.image.url }}" height="60" width="60"></a></td>
+                                            <td width="25%" class="text-left"><a class="text-success" href="{% url 'song_detail' pk=song.pk %}">{{ song.title }}</a></td>
+                                            <td width="25%" class="text-left"><a class="text-success" href="{% url 'author_detail' pk=song.author.pk %}">{{ song.author }}</a></td>
+                                            <td width="30%" class="text-left">
+                                                <audio controls style="width: 290px;">
+                                                    <source src="{{ song.mp3.url }}" type="audio/mpeg">
+                                                </audio>
+                                                <embed src="{{ song.mp3.url }}" loop="true" autostart="true" width="0" height="0">
+                                            </td>
+                                    </tr>
+                            </tbody>
+                    </table>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+        </div>
+</div>
+{% endblock %}

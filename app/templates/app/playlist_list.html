@@ -1,0 +1,23 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="card bg-dark mb-3 border-success">
+            <div class="card-header"><h1>Playlists</h1></div>
+                <div class="row">
+                    {% for playlist in playlists %}
+                        <div class="col-sm-4">
+                            <div class="card bg-dark mb-3 border-success mx-auto" style="width: 16rem;">
+                                <a href="{% url 'playlist_detail' pk=playlist.pk %}"><img src="{{ playlist.image.url }}" height="250" width="250"></a>
+                                <div class="card-body">
+                                    <h5><a class="text-success" href="{% url 'playlist_detail' pk=playlist.pk %}">{{ playlist.title }}</a></h5>
+                                    <p>Author: {{ playlist.author }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

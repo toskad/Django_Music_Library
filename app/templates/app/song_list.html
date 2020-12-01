@@ -1,0 +1,24 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="card bg-dark mb-3 border-success">
+            <div class="card-header"><h1>Songs</h1></div>
+                <div class="row">
+                    {% for song in songs %}
+                        <div class="col-sm-4">
+                            <div class="card bg-dark mb-3 border-success mx-auto" style="width: 16rem;">
+                                <a href="{% url 'song_detail' pk=song.pk %}"><img src="{{ song.image.url }}" height="250" width="250"></a>
+                                <div class="card-body">
+                                    <h5><a class="text-success" href="{% url 'song_detail' pk=song.pk %}">{{ song.title }}</a></h5>
+                                    <p>Author: <a class="text-success" href="{% url 'author_detail' pk=song.author.pk %}">{{ song.author }}</a></p>
+                                    <p>Genre: <a class="text-success" href="{% url 'genre_detail' pk=song.genre.pk %}">{{ song.genre }}</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

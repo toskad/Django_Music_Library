@@ -1,0 +1,103 @@
+{% extends 'app/base.html'  %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+    {% if not playlists %}
+    {% else %}
+    <div class="card bg-dark mb-3 border-success">
+        <div class="card-header"><h1>Searched Playlists:</h1></div>
+            <div class="row">
+                {% for playlist in playlists %}
+                    <div class="col-sm-4">
+                        <div class="card bg-dark mb-3 border-success mx-auto" style="width: 16rem;">
+                            <a href="{% url 'playlist_detail' pk=playlist.pk %}"><img src="{{ playlist.image.url }}" height="250" width="250"></a>
+                            <div class="card-body">
+                                <h5><a class="text-success" href="{% url 'playlist_detail' pk=playlist.pk %}">{{ playlist.title }}</a></h5>
+                                <p>Author: {{ playlist.author }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+    </div>
+    {% endif %}
+    {% if not albums %}
+    {% else %}
+    <div class="card bg-dark mb-3 border-success">
+        <div class="card-header"><h1>Searched Albums:</h1></div>
+            <div class="row">
+                {% for album in albums %}
+                    <div class="col-sm-4">
+                        <div class="card bg-dark mb-3 border-success mx-auto" style="width: 16rem;">
+                            <a href="{% url 'album_detail' pk=album.pk %}"><img src="{{ album.image.url }}" height="250" width="250"></a>
+                            <div class="card-body">
+                                <h5><a class="text-success" href="{% url 'album_detail' pk=album.pk %}">{{ album.title }}</a></h5>
+                                <p>Author: <a class="text-success" href="{% url 'author_detail' pk=album.author.pk %}">{{ album.author }}</a></p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+    </div>
+    {% endif %}
+    {% if not authors %}
+    {% else %}
+    <div class="card bg-dark mb-3 border-success">
+        <div class="card-header"><h1>Searched Authors:</h1></div>
+            <div class="row">
+                {% for author in authors %}
+                    <div class="col-sm-4">
+                        <div class="card bg-dark mb-3 border-success mx-auto" style="width: 16rem;">
+                            <a href="{% url 'author_detail' pk=author.pk %}"><img src="{{ author.image.url }}" height="250" width="250"></a>
+                            <div class="card-body">
+                                <h5><a class="text-success" href="{% url 'author_detail' pk=author.pk %}">{{ author.name }}</a></h5>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+    </div>
+    {% endif %}
+    {% if not songs %}
+    {% else %}
+    <div class="card bg-dark mb-3 border-success">
+        <div class="card-header"><h1>Searched Songs:</h1></div>
+            <div class="row">
+                {% for song in songs %}
+                    <div class="col-sm-4">
+                        <div class="card bg-dark mb-3 border-success mx-auto" style="width: 16rem;">
+                            <a href="{% url 'song_detail' pk=song.pk %}"><img src="{{ song.image.url }}" height="250" width="250"></a>
+                            <div class="card-body">
+                                <h5><a class="text-success" href="{% url 'song_detail' pk=song.pk %}">{{ song.title }}</a></h5>
+                                <p>Author: <a class="text-success" href="{% url 'author_detail' pk=song.author.pk %}">{{ song.author }}</a></p>
+                                <p>Genre: <a class="text-success" href="{% url 'genre_detail' pk=song.genre.pk %}">{{ song.genre }}</a></p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+    </div>
+    {% endif %}
+    {% if not genres %}
+    {% else %}
+    <div class="card bg-dark mb-3 border-success">
+        <div class="card-header"><h1>Searched Genres:</h1></div>
+            <div class="row">
+                {% for genre in genres %}
+                    <div class="col-sm-4">
+                        <div class="card bg-dark mb-3 border-success mx-auto" style="width: 16rem;">
+                            <a href="{% url 'genre_detail' pk=genre.pk %}"><img src="{{ genre.image.url }}" height="250" width="250"></a>
+                            <div class="card-body">
+                                <h5><a class="text-success" href="{% url 'genre_detail' pk=genre.pk %}">{{ genre.title }}</a></h5>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

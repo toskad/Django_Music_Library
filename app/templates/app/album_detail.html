@@ -1,0 +1,62 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<div class="container">
+                <div class="card bg-dark mb-3 border-success">
+                        <div class="card-header"><h1>{{ album.title }}</h1></div>
+                        <div class="row">
+                                <div class="col">
+                                        <img src="{{ album.image.url }}" width="50%">
+                                </div>
+                                <div class="col">
+                                        <div class="card-body text-left">
+                                                <h5 class="card-title">Published: {{ album.publish_date }}</h5>
+                                                <h5 class="card-title">Author: <a class="text-success" href="{% url 'author_detail' pk=album.author.pk %}">{{ album.author }}</a></h5>
+                                                {% if user.is_authenticated %}
+                                                        <form action="{% url 'like_album' album.pk %}" method="POST">
+                                                                {% csrf_token %}
+                                                                {% if is_liked %}
+                                                                        <button type="submit" class="btn btn-outline-success" name="album.id" value="{{ album.id }}">Unlike</button>
+                                                                {% else %}
+                                                                        <button type="submit" class="btn btn-success" name="album.id" value="{{ album.id }}">Like</button>
+                                                                {% endif %}
+                                                        </form>
+                                                {% endif %}
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+        <div class="container">
+                <div class="card bg-dark mb-3 border-success">
+                        <div class="card-header"><h1>Songs</h1></div>
+                        <div class="container table-responsive">
+                                <table class="table table-striped table-dark">
+                                        <tbody>
+                                                <tr>
+                                                        <td width="35%">Cover</td>
+                                                        <td width="35%">Title</td>
+                                                        <td width="30%">Player</td>
+                                                </tr>
+                                        </tbody>
+                                </table>
+                                {% for song in album.songs.all %}
+                                        <table class="table table-striped table-dark">
+                                                <tbody>
+                                                        <tr>
+                                                                <td width="35%"><a class="text-success" href="{% url 'song_detail' pk=song.pk %}"><img src="{{ song.image.url }}" height="60" width="60"></a></td>
+                                                                <td width="35%" class="text-left"><a class="text-success" href="{% url 'song_detail' pk=song.pk %}">{{ song.title }}</a></td>
+                                                                <td width="30%" class="text-left">
+                                                                        <audio controls style="width: 290px;">
+                                                                        <source src="{{ song.mp3.url }}" type="audio/mpeg">
+                                                                        </audio>
+                                                                        <embed src="{{ song.mp3.url }}" loop="true" autostart="true" width="0" height="0">
+                                                                </td>
+                                                        </tr>
+                                                </tbody>
+                                        </table>
+                                {% endfor %}
+                        </div>
+                </div>
+        </div>
+{% endblock %}

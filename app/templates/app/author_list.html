@@ -1,0 +1,22 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="card bg-dark mb-3 border-success">
+            <div class="card-header"><h1>Authors</h1></div>
+                <div class="row">
+                    {% for author in authors %}
+                        <div class="col-sm-4">
+                            <div class="card bg-dark mb-3 border-success mx-auto" style="width: 16rem;">
+                                <a href="{% url 'author_detail' pk=author.pk %}"><img src="{{ author.image.url }}" height="250" width="250"></a>
+                                <div class="card-body">
+                                    <h5><a class="text-success" href="{% url 'author_detail' pk=author.pk %}">{{ author.name }}</a></h5>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

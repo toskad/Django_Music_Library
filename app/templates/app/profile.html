@@ -1,0 +1,116 @@
+{% extends 'app/base.html'  %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+    <div class="card bg-dark mb-3 border-success">
+        <div class="card-header"><img src="{{ user.userprofile.image.url }}" height="100" width="100" class="rounded-circle"><h1>{{user.username}}</h1></div>
+        <div class="container card-body">
+            <a class="text-success" data-toggle="collapse" href="#collapse_playlist" role="button" aria-expanded="false" aria-controls="collapse_playlist">
+            <h3>Create Playlist:</h3></a>
+            <form method="POST" class="form-group collapse" enctype="multipart/form-data" id="collapse_playlist">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-success">Create Playlist</button>
+            </form>
+        </div>
+    </div>
+    {% if not my_playlists %}
+    {% else %}
+    <div class="card bg-dark mb-3 border-success">
+        <a class="text-success" data-toggle="collapse" href="#collapse_liked_playlists" role="button" aria-expanded="false" aria-controls="collapse_liked_playlists">
+            <div class="card-header"><h1>My Playlists:</h1></div></a>
+            <div class="row collapse" id="collapse_liked_playlists">
+                {% for playlist in my_playlists %}
+                    <div class="col-sm-4">
+                        <div class="card bg-dark mb-3 border-success mx-auto" style="width: 16rem;">
+                            <a href="{% url 'playlist_detail' pk=playlist.pk %}"><img src="{{ playlist.image.url }}" height="250" width="250"></a>
+                            <div class="card-body">
+                                <h5><a class="text-success" href="{% url 'playlist_detail' pk=playlist.pk %}">{{ playlist.title }}</a></h5>
+                                <p>Author: {{ playlist.author }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+    </div>
+    {% endif %}
+    {% if not liked_playlists %}
+    {% else %}
+    <div class="card bg-dark mb-3 border-success">
+        <a class="text-success" data-toggle="collapse" href="#collapse_playlists" role="button" aria-expanded="false" aria-controls="collapse_playlists">
+            <div class="card-header"><h1>Liked Playlists:</h1></div></a>
+            <div class="row collapse" id="collapse_playlists">
+                {% for playlist in liked_playlists %}
+                    <div class="col-sm-4">
+                        <div class="card bg-dark mb-3 border-success mx-auto" style="width: 16rem;">
+                            <a href="{% url 'playlist_detail' pk=playlist.pk %}"><img src="{{ playlist.image.url }}" height="250" width="250"></a>
+                            <div class="card-body">
+                                <h5><a class="text-success" href="{% url 'playlist_detail' pk=playlist.pk %}">{{ playlist.title }}</a></h5>
+                                <p>Author: {{ playlist.author }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+    </div>
+    {% endif %}
+    {% if not liked_albums %}
+    {% else %}
+    <div class="card bg-dark mb-3 border-success">
+        <a class="text-success" data-toggle="collapse" href="#collapse_albums" role="button" aria-expanded="false" aria-controls="collapse_albums">
+            <div class="card-header"><h1>Liked Albums:</h1></div></a>
+            <div class="row collapse" id="collapse_albums">
+                {% for album in liked_albums %}
+                    <div class="col-sm-4">
+                        <div class="card bg-dark mb-3 border-success mx-auto" style="width: 16rem;">
+                            <a href="{% url 'album_detail' pk=album.pk %}"><img src="{{ album.image.url }}" height="250" width="250"></a>
+                            <div class="card-body">
+                                <h5><a class="text-success" href="{% url 'album_detail' pk=album.pk %}">{{ album.title }}</a></h5>
+                                <p>Author: <a class="text-success" href="{% url 'author_detail' pk=album.author.pk %}">{{ album.author }}</a></p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+    </div>
+    {% endif %}
+    {% if not liked_songs %}
+    {% else %}
+    <div class="card bg-dark mb-3 border-success">
+            <a class="text-success" data-toggle="collapse" href="#collapse_songs" role="button" aria-expanded="false" aria-controls="collapse_songs">
+            <div class="card-header"><h1>Liked Songs:</h1></div></a>
+            <div class="container table-responsive collapse" id="collapse_songs">
+                    <table class="table table-striped table-dark">
+                            <tbody>
+                                    <tr>
+                                        <td width="20%" class="text-left">Cover</td>
+                                        <td width="25%" class="text-left">Title</td>
+                                        <td width="25%" class="text-left">Author</td>
+                                        <td width="30%" class="text-left">Player</td>
+                                    </tr>
+                            </tbody>
+                    </table>
+                    {% for song in liked_songs %}
+                            <table class="table table-striped table-dark">
+                                    <tbody>
+                                            <tr>
+                                                    <td width="20%"><a class="text-success" href="{% url 'song_detail' pk=song.pk %}"><img src="{{ song.image.url }}" height="60" width="60"></a></td>
+                                                    <td width="25%" class="text-left"><a class="text-success" href="{% url 'song_detail' pk=song.pk %}">{{ song.title }}</a></td>
+                                                    <td width="25%" class="text-left"><a class="text-success" href="{% url 'author_detail' pk=song.author.pk %}">{{ song.author }}</a></td>
+                                                    <td width="30%" class="text-left">
+                                                        <audio controls style="width: 290px;">
+                                                        <source src="{{ song.mp3.url }}" type="audio/mpeg">
+                                                        </audio>
+                                                        <embed src="{{ song.mp3.url }}" loop="true" autostart="true" width="0" height="0">
+                                                    </td>
+                                            </tr>
+                                    </tbody>
+                            </table>
+                    {% endfor %}
+            </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

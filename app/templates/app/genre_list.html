@@ -1,0 +1,22 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="card bg-dark mb-3 border-success">
+        <div class="card-header"><h1>Genres</h1></div>
+            <div class="row">
+                {% for genre in genres %}
+                    <div class="col-sm-4">
+                        <div class="card bg-dark mb-3 border-success mx-auto" style="width: 16rem;">
+                            <a href="{% url 'genre_detail' pk=genre.pk %}"><img src="{{ genre.image.url }}" height="250" width="250"></a>
+                            <div class="card-body">
+                                <h5><a class="text-success" href="{% url 'genre_detail' pk=genre.pk %}">{{ genre.title }}</a></h5>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
