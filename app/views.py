@@ -9,11 +9,12 @@ from .forms import *
 
 def index(request):
     songs = Song.objects.order_by('author','title')
+    latest_songs = Song.objects.all()
     albums = Album.objects.order_by('author','title')
     playlists = Playlist.objects.order_by('title')
     genres = Genre.objects.order_by('title')
     authors = Author.objects.order_by('name')
-    return render(request, "app/index.html", {'songs': songs, 'albums': albums, 'playlists': playlists, 'genres': genres, 'authors': authors})
+    return render(request, "app/index.html", {'songs': songs, 'albums': albums, 'playlists': playlists, 'genres': genres, 'authors': authors, 'latest_songs': latest_songs})
 
 
 def genre_list(request):
@@ -103,6 +104,16 @@ def profile(request):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('../profile/')
+    if request.method == 'post' and request.FILES['myfile']:
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
+        userprofile.image = ImageFile(f)
+        UserProfile.save()
+        return render(request, 'core/simple_upload.html', {
+            'uploaded_file_url': uploaded_file_url
+        })
     else:
         form = PlaylistForm(request.user, initial={'author': request.user})
         form.fields['author'].widget = forms.HiddenInput()

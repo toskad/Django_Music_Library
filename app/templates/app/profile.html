@@ -6,6 +6,11 @@
 <div class="container">
     <div class="card bg-dark mb-3 border-success">
         <div class="card-header"><img src="{{ user.userprofile.image.url }}" height="100" width="100" class="rounded-circle"><h1>{{user.username}}</h1></div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="myfile">
+            <button type="submit">Upload</button>
+        </form>
         <div class="container card-body">
             <a class="text-success" data-toggle="collapse" href="#collapse_playlist" role="button" aria-expanded="false" aria-controls="collapse_playlist">
             <h3>Create Playlist:</h3></a>
