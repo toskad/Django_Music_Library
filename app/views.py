@@ -104,20 +104,29 @@ def profile(request):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('../profile/')
-    if request.method == 'post' and request.FILES['myfile']:
-        myfile = request.FILES['myfile']
-        fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
-        uploaded_file_url = fs.url(filename)
-        userprofile.image = ImageFile(f)
-        UserProfile.save()
-        return render(request, 'core/simple_upload.html', {
-            'uploaded_file_url': uploaded_file_url
-        })
     else:
         form = PlaylistForm(request.user, initial={'author': request.user})
         form.fields['author'].widget = forms.HiddenInput()
     return render(request, "app/profile.html", {'liked_songs':liked_songs,'liked_albums':liked_albums,'liked_playlists':liked_playlists,'my_playlists':my_playlists,'form':form})
+
+
+def edit_profile(request):
+    userprofile = UserProfile.objects.get(id=request.user.id)
+    if request.method == 'POST':
+        userprofileform = UserImageForm(request.POST, request.FILES)
+        userform = UserEditForm(request.POST)
+        if userprofileform.is_valid() and userform.is_valid():
+            if bool(request.FILES.get('image', False)):
+                userprofile.image = userprofileform.cleaned_data.get("image")
+            if userform.cleaned_data['username'] is not "":
+                request.user.username = userform.cleaned_data['username']
+            userprofile.save()
+            request.user.save()
+            return HttpResponseRedirect('../profile/')
+    else:
+        userprofileform = UserImageForm()
+        userform = UserEditForm()
+    return render(request, "app/edit_profile.html", {'userprofileform':userprofileform,'userform':userform})
 
 
 def like_song(request, pk):

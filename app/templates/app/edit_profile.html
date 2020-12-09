@@ -5,12 +5,15 @@
 {% block content %}
 <div class="container">
     <div class="card bg-dark mb-3 border-success">
-        <div class="card-header"><img src="{{ user.userprofile.image.url }}" height="100" width="100" class="rounded-circle"><h1>{{user.username}}</h1></div>
+        <div class="card-header"><h1>Edit Profile</h1></div>
         <div class="container card-body">
-            <a class="link text-success" href="../editprofile">
-                <button class="btn btn-success">Edit profile</button>
-            </a>
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Create Playlist</button>
+            <form method="POST" class="form-group" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {{ userprofileform|crispy }}
+                {{ userform|crispy }}
+                <button type="submit" class="btn btn-success">Save</button>
+            </form>
         </div>
     </div>
     {% if not my_playlists %}
@@ -109,22 +112,5 @@
             </div>
     </div>
     {% endif %}
-</div>
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content bg-dark">
-      <div class="modal-header">
-        <h4 class="modal-title">Create Playlist</h4>
-        <button type="button " class="close" data-dismiss="modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <form method="POST" class="form-group" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form|crispy }}
-            <button type="submit" class="btn btn-success">Save</button>
-        </form>
-      </div>
-    </div>
-  </div>
 </div>
 {% endblock %}
