@@ -55,11 +55,21 @@
       </li>
     </ul>
   <h2>Spuštění Projektu</h2>
+  <h4>Windows</h4>
     
     git clone https://github.com/it1726/Django_Music_Library
     cd Django_Music_Library
     python -m venv venv
     venv\Scripts\activate
+    pip install -r requirements.txt
+    python manage.py runserver
+    
+  <h4>linux</h4>
+  
+    git clone https://github.com/it1726/Django_Music_Library
+    cd Django_Music_Library
+    virtualenv -p python venv
+    source venv/bin/activate
     pip install -r requirements.txt
     python manage.py runserver
 
