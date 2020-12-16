@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container">
+<div class="container-fluid">
     <div class="card bg-dark mb-3 border-success">
         <div class="card-header"><img src="{{ user.userprofile.image.url }}" height="100" width="100" class="rounded-circle"><h1>{{user.username}}</h1></div>
         <div class="container card-body">
@@ -18,19 +18,19 @@
     <div class="card bg-dark mb-3 border-success">
         <a class="text-success" data-toggle="collapse" href="#collapse_liked_playlists" role="button" aria-expanded="false" aria-controls="collapse_liked_playlists">
             <div class="card-header"><h1>My Playlists:</h1></div></a>
-            <div class="row collapse" id="collapse_liked_playlists">
-                {% for playlist in my_playlists %}
-                    <div class="col-sm-4">
-                        <div class="card bg-dark mb-3 border-success mx-auto" style="width: 16rem;">
-                            <a href="{% url 'playlist_detail' pk=playlist.pk %}"><img src="{{ playlist.image.url }}" height="250" width="250"></a>
-                            <div class="card-body">
-                                <h5><a class="text-success" href="{% url 'playlist_detail' pk=playlist.pk %}">{{ playlist.title }}</a></h5>
-                                <p>Author: {{ playlist.author }}</p>
-                            </div>
+        <div class="row collapse" id="collapse_liked_playlists">
+            {% for playlist in my_playlists %}
+                <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mx-auto d-flex justify-content-center">
+                    <div class="card bg-dark mb-3 border-success mx-auto" style="width: 75%;">
+                        <a href="{% url 'playlist_detail' pk=playlist.pk %}"><img src="{{ playlist.image.url }}" class="card-img-top"></a>
+                        <div class="card-body">
+                            <h5><a class="text-success" href="{% url 'playlist_detail' pk=playlist.pk %}">{{ playlist.title }}</a></h5>
+                            <p>Author: {{ playlist.author }}</p>
                         </div>
                     </div>
-                {% endfor %}
-            </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
     {% endif %}
     {% if not liked_playlists %}
@@ -38,19 +38,19 @@
     <div class="card bg-dark mb-3 border-success">
         <a class="text-success" data-toggle="collapse" href="#collapse_playlists" role="button" aria-expanded="false" aria-controls="collapse_playlists">
             <div class="card-header"><h1>Liked Playlists:</h1></div></a>
-            <div class="row collapse" id="collapse_playlists">
-                {% for playlist in liked_playlists %}
-                    <div class="col-sm-4">
-                        <div class="card bg-dark mb-3 border-success mx-auto" style="width: 16rem;">
-                            <a href="{% url 'playlist_detail' pk=playlist.pk %}"><img src="{{ playlist.image.url }}" height="250" width="250"></a>
-                            <div class="card-body">
-                                <h5><a class="text-success" href="{% url 'playlist_detail' pk=playlist.pk %}">{{ playlist.title }}</a></h5>
-                                <p>Author: {{ playlist.author }}</p>
-                            </div>
+        <div class="row collapse" id="collapse_playlists">
+            {% for playlist in liked_playlists %}
+                <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mx-auto d-flex justify-content-center">
+                    <div class="card bg-dark mb-3 border-success mx-auto" style="width: 75%;">
+                        <a href="{% url 'playlist_detail' pk=playlist.pk %}"><img src="{{ playlist.image.url }}" class="card-img-top"></a>
+                        <div class="card-body">
+                            <h5><a class="text-success" href="{% url 'playlist_detail' pk=playlist.pk %}">{{ playlist.title }}</a></h5>
+                            <p>Author: {{ playlist.author }}</p>
                         </div>
                     </div>
-                {% endfor %}
-            </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
     {% endif %}
     {% if not liked_albums %}
@@ -58,24 +58,24 @@
     <div class="card bg-dark mb-3 border-success">
         <a class="text-success" data-toggle="collapse" href="#collapse_albums" role="button" aria-expanded="false" aria-controls="collapse_albums">
             <div class="card-header"><h1>Liked Albums:</h1></div></a>
-            <div class="row collapse" id="collapse_albums">
-                {% for album in liked_albums %}
-                    <div class="col-sm-4">
-                        <div class="card bg-dark mb-3 border-success mx-auto" style="width: 16rem;">
-                            <a href="{% url 'album_detail' pk=album.pk %}"><img src="{{ album.image.url }}" height="250" width="250"></a>
-                            <div class="card-body">
-                                <h5><a class="text-success" href="{% url 'album_detail' pk=album.pk %}">{{ album.title }}</a></h5>
-                                <p>Author: <a class="text-success" href="{% url 'author_detail' pk=album.author.pk %}">{{ album.author }}</a></p>
-                            </div>
+        <div class="row collapse" id="collapse_albums">
+            {% for album in liked_albums %}
+                <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mx-auto d-flex justify-content-center">
+                    <div class="card bg-dark mb-3 border-success mx-auto" style="width: 75%;">
+                        <a href="{% url 'album_detail' pk=album.pk %}"><img src="{{ album.image.url }}" class="card-img-top"></a>
+                        <div class="card-body">
+                            <h5><a class="text-success" href="{% url 'album_detail' pk=album.pk %}">{{ album.title }}</a></h5>
+                            <p>Author: <a class="text-success" href="{% url 'author_detail' pk=album.author.pk %}">{{ album.author }}</a></p>
                         </div>
                     </div>
-                {% endfor %}
-            </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
     {% endif %}
     {% if not liked_songs %}
     {% else %}
-    <div class="card bg-dark mb-3 border-success">
+    <div class="card bg-dark border-success">
             <a class="text-success" data-toggle="collapse" href="#collapse_songs" role="button" aria-expanded="false" aria-controls="collapse_songs">
             <div class="card-header"><h1>Liked Songs:</h1></div></a>
             <div class="container table-responsive collapse" id="collapse_songs">
@@ -115,7 +115,7 @@
     <div class="modal-content bg-dark">
       <div class="modal-header">
         <h4 class="modal-title">Create Playlist</h4>
-        <button type="button " class="close" data-dismiss="modal">&times;</button>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body">
         <form method="POST" class="form-group" enctype="multipart/form-data">

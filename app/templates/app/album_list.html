@@ -3,12 +3,15 @@
 {% block content %}
     <div class="container-fluid">
         <div class="card bg-dark mb-3 border-success">
-            <div class="card-header"><h1>Albums</h1></div>
+            <div class="card-header">
+                <h1>Albums</h1>
+            </div>
+            <div class="card-body">
                 <div class="row">
                     {% for album in albums %}
-                        <div class="col-sm-6 col-md-4">
-                            <div class="card bg-dark mb-3 border-success mx-auto" style="width: 16rem;">
-                                <a href="{% url 'album_detail' pk=album.pk %}"><img class="img-fluid" src="{{ album.image.url }}"></a>
+                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mx-auto d-flex justify-content-center">
+                            <div class="card bg-dark mb-3 border-success mx-auto" style="width: 75%;">
+                                <a href="{% url 'album_detail' pk=album.pk %}"><img src="{{ album.image.url }}" class="card-img-top"></a>
                                 <div class="card-body">
                                     <h5><a class="text-success" href="{% url 'album_detail' pk=album.pk %}">{{ album.title }}</a></h5>
                                     <p>Author: <a class="text-success" href="{% url 'author_detail' pk=album.author.pk %}">{{ album.author }}</a></p>

@@ -1,14 +1,17 @@
 {% extends 'app/base.html' %}
 
 {% block content %}
-    <div class="container">
+    <div class="container-fluid">
         <div class="card bg-dark mb-3 border-success">
-            <div class="card-header"><h1>Latest Songs</h1></div>
+            <div class="card-header">
+                <h1>Latest Songs</h1>
+            </div>
+            <div class="card-body">
                 <div class="row">
-                    {% for song in latest_songs %}
-                        <div class="col-sm-4">
-                            <div class="card bg-dark mb-3 border-success mx-auto" style="width: 16rem;">
-                                <a href="{% url 'song_detail' pk=song.pk %}"><img src="{{ song.image.url }}" height="250" width="250"></a>
+                    {% for song in songs %}
+                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mx-auto d-flex justify-content-center">
+                            <div class="card bg-dark mb-3 border-success mx-auto" style="width: 75%;">
+                                <a href="{% url 'song_detail' pk=song.pk %}"><img src="{{ song.image.url }}" class="card-img-top"></a>
                                 <div class="card-body">
                                     <h5><a class="text-success" href="{% url 'song_detail' pk=song.pk %}">{{ song.title }}</a></h5>
                                     <p>Author: <a class="text-success" href="{% url 'author_detail' pk=song.author.pk %}">{{ song.author }}</a></p>
@@ -18,6 +21,51 @@
                         </div>
                     {% endfor %}
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="card bg-dark mb-3 border-success">
+            <div class="card-header">
+                <h1>Latest Albums</h1>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for album in albums %}
+                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mx-auto d-flex justify-content-center">
+                            <div class="card bg-dark mb-3 border-success mx-auto" style="width: 75%;">
+                                <a href="{% url 'album_detail' pk=album.pk %}"><img src="{{ album.image.url }}" class="card-img-top"></a>
+                                <div class="card-body">
+                                    <h5><a class="text-success" href="{% url 'album_detail' pk=album.pk %}">{{ album.title }}</a></h5>
+                                    <p>Author: <a class="text-success" href="{% url 'author_detail' pk=album.author.pk %}">{{ album.author }}</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="card bg-dark mb-3 border-success">
+            <div class="card-header">
+                <h1>Latest Playlists</h1>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for playlist in playlists %}
+                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mx-auto d-flex justify-content-center">
+                            <div class="card bg-dark mb-3 border-success mx-auto" style="width: 75%;">
+                                <a href="{% url 'playlist_detail' pk=playlist.pk %}"><img src="{{ playlist.image.url }}" class="card-img-top"></a>
+                                <div class="card-body">
+                                    <h5><a class="text-success" href="{% url 'playlist_detail' pk=playlist.pk %}">{{ playlist.title }}</a></h5>
+                                    <p>Author: {{ playlist.author }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

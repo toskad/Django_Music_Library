@@ -8,13 +8,12 @@ from .forms import *
 
 
 def index(request):
-    songs = Song.objects.order_by('author','title')
-    latest_songs = Song.objects.all()
-    albums = Album.objects.order_by('author','title')
-    playlists = Playlist.objects.order_by('title')
+    songs = Song.objects.order_by('-publish_date')[:6]
+    albums = Album.objects.order_by('-publish_date')[:6]
+    playlists = Playlist.objects.order_by('-pk')[:6]
     genres = Genre.objects.order_by('title')
     authors = Author.objects.order_by('name')
-    return render(request, "app/index.html", {'songs': songs, 'albums': albums, 'playlists': playlists, 'genres': genres, 'authors': authors, 'latest_songs': latest_songs})
+    return render(request, "app/index.html", {'songs': songs, 'albums': albums, 'playlists': playlists, 'genres': genres, 'authors': authors})
 
 
 def genre_list(request):
@@ -103,7 +102,7 @@ def profile(request):
         form = PlaylistForm(request.user, request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('../profile/')
+            return HttpResponseRedirect('../playlists/')
     else:
         form = PlaylistForm(request.user, initial={'author': request.user})
         form.fields['author'].widget = forms.HiddenInput()
@@ -159,6 +158,7 @@ def like_playlist(request, pk):
 def create_playlist(request):
     playlist = Playlist(author=UserProfile, title="test", text="text")
     playlist.save()
+    return HttpResponseRedirect('../playlists/')
 
 
 def delete_playlist(request, pk):
