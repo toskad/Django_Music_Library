@@ -38,10 +38,10 @@
                                                     <td width="25%" class="text-left"><a class="text-success" href="{% url 'song_detail' pk=song.pk %}">{{ song.title }}</a></td>
                                                     <td width="25%" class="text-left"><a class="text-success" href="{% url 'author_detail' pk=song.author.pk %}">{{ song.author }}</a></td>
                                                     <td width="30%" class="text-left">
-                                                        <audio controls style="width: 290px;">
-                                                        <source src="{{ song.mp3.url }}" type="audio/mpeg">
+                                                        <audio controls style="width: 290px;" preload="none">
+                                                            <source src="{{ song.mp3.url }}" type="audio/mpeg">
                                                         </audio>
-                                                        <embed src="{{ song.mp3.url }}" loop="true" autostart="true" width="0" height="0">
+                                                        <embed src="{{ song.mp3.url }}" width="0" height="0">
                                                     </td>
                                             </tr>
                                     </tbody>

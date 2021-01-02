@@ -28,10 +28,10 @@
                                                                 {{ form }}
                                                         </form>
                                                 {% endif %}
-                                                <audio controls>
+                                                <audio controls preload="none">
                                                         <source src="{{ song.mp3.url }}" type="audio/mpeg">
                                                 </audio>
-                                                <embed src="{{ song.mp3.url }}" loop="true" autostart="true" width="2" height="0">
+                                                <embed src="{{ song.mp3.url }}" width="2" height="0">
                                         </div>
                                 </div>
                         </div>

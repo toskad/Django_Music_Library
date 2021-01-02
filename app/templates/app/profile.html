@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container-fluid">
     <div class="card bg-dark mb-3 border-success">
-        <div class="card-header"><img src="{{ user.userprofile.image.url }}" height="100" width="100" class="rounded-circle"><h1>{{user.username}}</h1></div>
+        <div class="card-header"><img src="{{ user.userprofile.image.url }}" height="100" width="100" class="rounded-circle border border-success"><h1>{{user.username}}</h1></div>
         <div class="container card-body">
             <a class="link text-success" href="../editprofile">
                 <button class="btn btn-success">Edit profile</button>
@@ -98,9 +98,9 @@
                                                     <td width="25%" class="text-left"><a class="text-success" href="{% url 'author_detail' pk=song.author.pk %}">{{ song.author }}</a></td>
                                                     <td width="30%" class="text-left">
                                                         <audio controls style="width: 290px;">
-                                                        <source src="{{ song.mp3.url }}" type="audio/mpeg">
+                                                            <source src="{{ song.mp3.url }}" type="audio/mpeg" preload="none">
                                                         </audio>
-                                                        <embed src="{{ song.mp3.url }}" loop="true" autostart="true" width="0" height="0">
+                                                        <embed src="{{ song.mp3.url }}" width="0" height="0">
                                                     </td>
                                             </tr>
                                     </tbody>
