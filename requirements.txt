@@ -3,7 +3,7 @@ Pillow==7.2.0
 asgiref==3.2.10
 django-crispy-forms==1.9.2
 gunicorn==20.0.4
-pip==20.2.4
+pip==21.1
 psycopg2==2.8.6
 pytz==2020.1
 setuptools==50.3.2
